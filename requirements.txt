@@ -1,0 +1,8 @@
+flask==2.2.5
+flask-cors==3.0.10
+numpy
+pandas
+tensorflow-cpu==2.13.0
+yfinance
+scikit-learn
+joblib
