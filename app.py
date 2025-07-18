@@ -29,8 +29,6 @@ def load_data(ticker):
     data = yf.download(ticker, START, TODAY)
     data.reset_index(inplace=True)
     return data
-    
-scaler = MinMaxScaler(feature_range=(0,1))
 
 def process_raw(data): 
     data = data.iloc[:, 4:5].values
@@ -62,6 +60,7 @@ def predict():
             return jsonify({"error": f"No data found for ticker '{ticker}'"}), 404
 
         latest_price = float(raw_data["Close"].iloc[-1])
+        latest_date = str(raw_data["Date"].iloc[-1].date())  
         print(latest_price)
 
         input_data = process_raw(raw_data)
@@ -70,7 +69,8 @@ def predict():
         return jsonify({
             "ticker": ticker,
             "forecast": round(prediction, 2),
-            "latest_price": round(latest_price, 2)
+            "latest_price": round(latest_price, 2),
+            "latest_date": latest_date
         })
 
     except Exception as e:
